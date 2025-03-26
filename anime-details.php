@@ -25,37 +25,65 @@ if (isset($_GET['id'])) {
     GROUP BY shows.id ");
     $shows->execute();
     $singleShow = $shows->fetch(PDO::FETCH_OBJ);
-}
 
-//comments
-$comments = $conn->query("SELECT * FROM comments WHERE id = '$id'");
-$comments->execute();
 
-$allComments = $comments->fetchAll(PDO::FETCH_OBJ);
+    //comments
+    $comments = $conn->query("SELECT * FROM comments WHERE show_id = '$id'");
+    $comments->execute();
 
-//following
-if (isset($_POST['submit'])) {
-    $user_id = $_POST['user_id'];
-    $show_id = $_POST['show_id'];
+    $allComments = $comments->fetchAll(PDO::FETCH_OBJ);
 
-    $follow = $conn->prepare("INSERT INTO followings (user_id,
+    //following
+    if (isset($_POST['submit'])) {
+        $user_id = $_POST['user_id'];
+        $show_id = $_POST['show_id'];
+
+        $follow = $conn->prepare("INSERT INTO followings (user_id,
             show_id) 
             VALUES (:user_id, :show_id)");
 
-    $follow->execute([
-        ":user_id" => $user_id,
-        ":show_id" => $show_id,
+        $follow->execute([
+            ":user_id" => $user_id,
+            ":show_id" => $show_id,
 
-    ]);
-}
+        ]);
+        echo "<script><alert>You have followed this show</alert></script>";
+    }
 
-//header("location: " . APPURL . "/anime-details.php?id=" . $id . "");
-//Check following
-$checkFollowing = $conn->query("SELECT * FROM followings 
+    //Check following
+    $checkFollowing = $conn->query("SELECT * FROM followings 
     where show_id='$id' and user_id='$_SESSION[user_id]' ");
-$checkFollowing->execute();
+    $checkFollowing->execute();
 
 
+    //inserting comments
+    if (isset($_POST['insert_comment'])) {
+
+        if (empty($_POST['comment'])) {
+            echo "<script>alert('Empty comment')</script>";
+        } else {
+
+            $comment = $_POST['comment'];
+            $show_id = $id;
+            $user_id = $_SESSION['user_id'];
+            $user_name = $_SESSION['username'];
+
+
+            $insert = $conn->prepare("INSERT INTO comments (comment, show_id, user_id, user_name) 
+            VALUES (:comment, :show_id, :user_id, :user_name)");
+
+            $insert->execute([
+                ":comment" => $comment,
+                ":show_id" => $show_id,
+                ":user_id" => $user_id,
+                ":user_name" => $user_name,
+
+            ]);
+
+            echo "<script><alert>Comment added</alert></script>";
+        }
+    }
+}
 
 ?>
 
@@ -127,7 +155,7 @@ $checkFollowing->execute();
 
                                     <button name="submit" type="submit" class="follow-btn"><i class="fa fa-heart-o"></i> Follow</button>
                                 <?php endif; ?>
-                                <a href="anime-watching.php" class="watch-btn"><span>Watch Now</span> <i
+                                <a href="anime-watching.php?id=<?php echo $id; ?>&ep=1" class="watch-btn"><span>Watch Now</span> <i
                                         class="fa fa-angle-right"></i></a>
                             </form>
 
@@ -161,9 +189,9 @@ $checkFollowing->execute();
                     <div class="section-title">
                         <h5>Your Comment</h5>
                     </div>
-                    <form action="#">
-                        <textarea placeholder="Your Comment"></textarea>
-                        <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
+                    <form method="post" action="<?php echo APPURL; ?>/anime-details.php?id=<?php echo $id; ?>">
+                        <textarea name="comment" placeholder="Your Comment"></textarea>
+                        <button name="insert_comment" type="submit"><i class="fa fa-location-arrow"></i> Comment</button>
                     </form>
                 </div>
             </div>
