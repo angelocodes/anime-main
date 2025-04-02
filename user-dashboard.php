@@ -5,7 +5,7 @@ require "config/config.php";
 // Authentication check
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: auth/login.php");
     exit;
 }
 
@@ -55,6 +55,7 @@ $allNotifications = $conn->prepare("
     JOIN shows ON notifications.show_id = shows.id
     WHERE notifications.user_id = :user_id
     ORDER BY notifications.created_at DESC
+    LIMIT 5
 ");
 $allNotifications->execute([':user_id' => $_SESSION['user_id']]);
 $allNotifications = $allNotifications->fetchAll(PDO::FETCH_OBJ);
@@ -62,10 +63,10 @@ $allNotifications = $allNotifications->fetchAll(PDO::FETCH_OBJ);
 
 <!-- Dashboard HTML -->
 <div class="dashboard-container" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
-    <h1 style="margin-bottom: 30px;">Your Dashboard</h1>
+    <h1 style="margin-bottom: 30px; font-size: 50px; color: #0b0c2a;">Your Dashboard</h1>
 
     <div class="dashboard-section">
-        <h2><i class="fa fa-bell"></i> Notifications</h2>
+        <h2><i class="fa fa-bell " style="color: #0b0c2a;"></i> Notifications</h2>
         <?php if (count($unreadNotifications) > 0): ?>
             <form method="post" style="margin-bottom: 15px;">
                 <button type="submit" name="mark_read" class="btn-mark-read"
@@ -95,7 +96,7 @@ $allNotifications = $allNotifications->fetchAll(PDO::FETCH_OBJ);
             <?php endif; ?>
         </div>
 
-        <h3 style="margin-top: 30px;">Notification History</h3>
+        <h3 style="margin-top: 30px; color: #0b0c2a;">Notification History</h3>
         <div class="all-notifications">
             <?php if (!empty($allNotifications)): ?>
                 <?php foreach ($allNotifications as $notification): ?>
@@ -118,7 +119,7 @@ $allNotifications = $allNotifications->fetchAll(PDO::FETCH_OBJ);
     </div>
 
     <div class="dashboard-section" style="margin-top: 40px;">
-        <h2><i class="fa fa-heart"></i> Followed Shows</h2>
+        <h2><i class="fa fa-heart" style="color: #0b0c2a;"></i> Followed Shows</h2>
         <div class="followed-shows-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
             <?php if (!empty($followedShows)): ?>
                 <?php foreach ($followedShows as $show): ?>
