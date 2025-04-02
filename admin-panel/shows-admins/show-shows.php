@@ -44,7 +44,7 @@ $allShows = $shows->fetchAll(PDO::FETCH_OBJ);
               <tr>
                 <th scope="row"><?php echo $show->id; ?></th>
                 <td><?php echo $show->title; ?></td>
-                <td><img style="height: 70px; width: 70px;" src="img/<?php echo $show->image; ?>" alt="anime"></td>
+                <td><img style="height: 70px; width: 70px;" src="http://localhost/anime-main/img/hero/<?php echo $show->image; ?>" alt="anime"></td>
                 <td><?php echo $show->type; ?></td>
                 <td><?php echo $show->date_aired; ?></td>
                 <td><?php echo $show->status; ?></td>

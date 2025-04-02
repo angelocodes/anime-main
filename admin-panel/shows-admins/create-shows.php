@@ -35,7 +35,11 @@ if (isset($_POST['submit'])) {
     $num_total = $_POST['num_total'];
     $image = $_FILES['image']['name'];
 
-    $dir = "img/" . basename($image);
+    // Go up 2 levels from current directory to reach anime-main
+    $base_dir = dirname(__DIR__, 2); // C:\xampp\htdocs\anime-main
+
+
+    $dir = $base_dir  . '/img/hero/' . basename($image);
 
     $insert = $conn->prepare("INSERT INTO shows (title,
             description, type, studios, date_aired, status, genre, duration, quality, num_available, num_total, image) 

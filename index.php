@@ -8,30 +8,50 @@ $shows->execute();
 $allshows = $shows->fetchAll(PDO::FETCH_OBJ);
 
 //trending shows
-$trendingShows = $conn->query("SELECT 
-    shows.id AS id, 
-    shows.image AS image, 
-    shows.type AS type, 
-    shows.genre AS genre, 
-    shows.num_available AS num_available, 
-    shows.num_total AS num_total, 
-    shows.title AS title, 
-    COUNT(views.show_id) AS count_views 
-FROM shows 
-JOIN views ON shows.id = views.show_id 
-GROUP BY shows.id 
-ORDER BY count_views DESC;");
+$trendingShows = $conn->prepare("
+    SELECT 
+        s.id, 
+        s.image, 
+        s.type, 
+        s.genre, 
+        s.num_available, 
+        s.num_total, 
+        s.title, 
+        COUNT(v.show_id) AS count_views
+    FROM 
+        shows s
+    LEFT JOIN 
+        views v ON s.id = v.show_id
+    GROUP BY 
+        s.id
+    HAVING 
+        COUNT(v.show_id) > 0
+    ORDER BY 
+        count_views DESC
+    LIMIT 6;
+");
+$trendingShows->execute();
 
 $trendingShows->execute();
 $allTrendingShows = $trendingShows->fetchAll(PDO::FETCH_OBJ);
 
 //adventure shows
 $adventureShows = $conn->query("
-SELECT shows.id AS id, shows.image AS image, shows.type as type,
-shows.genre as genre, shows.num_available AS num_available, 
-shows.num_total AS num_total, shows.title as title, COUNT(views.show_id) AS count_views 
-FROM shows JOIN views ON shows.id=views.show_id WHERE shows.genre = 'adventure' GROUP BY(shows.id) 
-ORDER BY views.show_id ASC;");
+SELECT 
+        shows.id AS id, 
+        shows.image AS image, 
+        shows.type AS type, 
+        shows.genre AS genre, 
+        shows.num_available AS num_available, 
+        shows.num_total AS num_total, 
+        shows.title AS title, 
+        COUNT(views.show_id) AS count_views 
+    FROM shows 
+    LEFT JOIN views ON shows.id = views.show_id 
+    WHERE shows.genre = 'Adventure' 
+    GROUP BY shows.id 
+    ORDER BY shows.created_at DESC 
+    ;");
 
 $adventureShows->execute();
 $allAdventureShows = $adventureShows->fetchAll(PDO::FETCH_OBJ);
@@ -112,7 +132,7 @@ $allForYouShows = $forYouShows->fetchAll(PDO::FETCH_OBJ);
                                 <div class="label"><?php echo $show->genre; ?></div>
                                 <h2><?php echo $show->title; ?></h2>
                                 <p><?php echo $show->description; ?></p>
-                                <a href="anime-watching.php?id<?php echo $show->id; ?>"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
+                                <a href="anime-watching.php?id=<?php echo $show->id; ?>&ep=1"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -183,9 +203,9 @@ $allForYouShows = $forYouShows->fetchAll(PDO::FETCH_OBJ);
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="product__item">
                                     <div class="product__item__pic set-bg" data-setbg="img/hero/<?php echo $adventureShow->image; ?>">
-                                        <div class="ep"><?php echo $adventureShow->num_available; ?> / <?php echo $trendingShow->num_total; ?></div>
+                                        <div class="ep"><?php echo $adventureShow->num_available; ?> / <?php echo $adventureShow->num_total; ?></div>
 
-                                        <div class="view"><i class="fa fa-eye"></i> <?php echo $trendingShow->count_views; ?></div>
+                                        <div class="view"><i class="fa fa-eye"></i> <?php echo $adventureShow->count_views; ?></div>
                                     </div>
                                     <div class="product__item__text">
                                         <ul>
