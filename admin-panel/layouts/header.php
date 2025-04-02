@@ -40,25 +40,25 @@ define("ADMINURL", "http://localhost/anime-main/admin-panel");
                                 <a class="nav-link" href="<?php echo ADMINURL; ?>/admins/admins.php" style="margin-left: 20px;">Admins</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="<?php echo ADMINURL; ?>/shows-admins/show-shows.html" style="margin-left: 20px;">Shows</a>
+                                <a class="nav-link" href="<?php echo ADMINURL; ?>/shows-admins/show-shows.php" style="margin-left: 20px;">Shows</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="<?php echo ADMINURL; ?>/genres-admins/show-genres.html" style="margin-left: 20px;">Genres</a>
+                                <a class="nav-link" href="<?php echo ADMINURL; ?>/genres-admins/show-genres.php" style="margin-left: 20px;">Genres</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="<?php echo ADMINURL; ?>/episodes-admins/show-episodes.html" style="margin-left: 20px;">Episodes</a>
+                                <a class="nav-link" href="<?php echo ADMINURL; ?>/episodes-admins/show-episodes.php" style="margin-left: 20px;">Episodes</a>
                             </li>
                         </ul>
                     <?php endif; ?>
                     <ul class="navbar-nav ml-md-auto d-md-flex">
                         <?php if (!isset($_SESSION['admin_name'])) : ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="admins/login-admins.html">login
+                                <a class="nav-link" href="<?php echo ADMINURL; ?>/admins/login-admins.php">login
                                 </a>
                             </li>
                         <?php else : ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="index.html">Home
+                                <a class="nav-link" href="<?php echo ADMINURL; ?>/index.php">Home
                                     <span class="sr-only">(current)</span>
                                 </a>
                             </li>
