@@ -1,19 +1,16 @@
 <?php
-
 require '../layouts/header.php';
 require '../../config/config.php';
 ?>
 <?php
-
 if (!isset($_SESSION['admin_name'])) {
   header("Location: " . ADMINURL . "/admins/login-admins.php");
 }
 
-//fetch showss
-$shows = $conn->query("SELECT * FROM shows");
+//fetch shows
+$shows = $conn->query("SELECT * FROM shows ORDER BY created_at DESC");
 $shows->execute();
 $allShows = $shows->fetchAll(PDO::FETCH_OBJ);
-
 ?>
 
 <div class="row">
@@ -36,7 +33,7 @@ $allShows = $shows->fetchAll(PDO::FETCH_OBJ);
               <th scope="col">num_available</th>
               <th scope="col">num_total</th>
               <th scope="col">created_at</th>
-              <th scope="col">delete</th>
+              <th scope="col">actions</th>
             </tr>
           </thead>
           <tbody>
@@ -52,7 +49,11 @@ $allShows = $shows->fetchAll(PDO::FETCH_OBJ);
                 <td><?php echo $show->num_available; ?></td>
                 <td><?php echo $show->num_total; ?></td>
                 <td><?php echo $show->created_at; ?></td>
-                <td><a href="delete-shows.php?id=<?php echo $show->id; ?>" class="btn btn-danger  text-center ">delete</a></td>
+                <td>
+
+                  <a href="edit-shows.php?id=<?php echo $show->id; ?>" class="btn btn-warning btn-sm text-center mb-1">Edit</a>
+                  <a href="delete-shows.php?id=<?php echo $show->id; ?>" class="btn btn-danger btn-sm text-center">Delete</a>
+                </td>
               </tr>
             <?php endforeach; ?>
           </tbody>
@@ -61,7 +62,5 @@ $allShows = $shows->fetchAll(PDO::FETCH_OBJ);
     </div>
   </div>
 </div>
-
-
 
 <?php require '../layouts/footer.php'; ?>

@@ -16,7 +16,7 @@ if (isset($_GET['id'])) {
     $image->execute();
     $getImage = $image->fetch(PDO::FETCH_OBJ);
 
-    unlink("img/" . $getImage->image);
+    unlink($_SERVER['DOCUMENT_ROOT'] . '/anime-main/img/hero/' . $getImage->image);
 
 
     $deleteShow = $conn->prepare("DELETE FROM shows WHERE id = :id");

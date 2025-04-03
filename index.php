@@ -125,15 +125,16 @@ $allForYouShows = $forYouShows->fetchAll(PDO::FETCH_OBJ);
     <div class="container">
         <div class="hero__slider owl-carousel">
             <?php foreach ($allshows as $show) : ?>
-                <div class="hero__items set-bg" data-setbg="img/hero/<?php echo $show->image; ?>">
+                <div class="hero__items set-bg" style="background-size: 100% 100%;" data-setbg="img/hero/<?php echo $show->image; ?>">
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="hero__text">
                                 <div class="label"><?php echo $show->genre; ?></div>
                                 <h2><?php echo $show->title; ?></h2>
-                                <p><?php echo $show->description; ?></p>
+                                <p style="background: rgba(59, 57, 57, 0.3); backdrop-filter: blur(5px); padding: 20px; border-radius: 10px; color: #fff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);"><?php echo $show->description; ?></p>
                                 <a href="anime-watching.php?id=<?php echo $show->id; ?>&ep=1"><span>Watch Now</span> <i class="fa fa-angle-right"></i></a>
                             </div>
+
                         </div>
                     </div>
                 </div>

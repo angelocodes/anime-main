@@ -56,14 +56,14 @@ if (isset($_GET['id']) && isset($_GET['ep'])) {
             <div class="col-lg-12">
                 <div class="anime__video__player">
                     <video id="player" playsinline controls
-                        data-poster="<?php echo APPURL; ?>/videos/<?php echo htmlspecialchars($singleEpisode->thumbnail); ?>">
+                        data-poster="<?php echo APPURL; ?>/img/hero/<?php echo htmlspecialchars($singleEpisode->thumbnail); ?>">
                         <source src="<?php echo APPURL; ?>/videos/<?php echo htmlspecialchars($singleEpisode->video); ?>" type="video/mp4" />
                     </video>
 
                     <!-- Download Button (only shows for logged in users) -->
                     <?php if ($isLoggedIn): ?>
                         <div style="margin-top: 15px; text-align: center;">
-                            <a href="<?php echo APPURL; ?>/download.php?id=<?php echo $singleEpisode->id; ?>"
+                            <a href="<?php echo APPURL; ?>/videos/<?php echo htmlspecialchars($singleEpisode->video); ?>"
                                 style="background-color: #4CAF50; color: white; padding: 10px 20px; border-radius: 4px; 
                                       text-decoration: none; display: inline-block; transition: all 0.3s;"
                                 onmouseover="this.style.backgroundColor='#45a049'"
@@ -73,7 +73,7 @@ if (isset($_GET['id']) && isset($_GET['ep'])) {
                         </div>
                     <?php else: ?>
                         <div style="margin-top: 15px; text-align: center;">
-                            <a href="login.php"
+                            <a href="auth/login.php"
                                 style="background-color: #e53637; color: white; padding: 10px 20px; border-radius: 4px; 
                                       text-decoration: none; display: inline-block; transition: all 0.3s;"
                                 onmouseover="this.style.backgroundColor='#ff4757'"
@@ -128,7 +128,7 @@ if (isset($_GET['id']) && isset($_GET['ep'])) {
                         </form>
                     <?php else: ?>
                         <p style="text-align: center; color: #b7b7b7; font-size: 16px; margin: 20px 0;">
-                            Please <a href="login.php" style="color: #e53637; text-decoration: none; font-weight: 600;">login</a> to post comments.
+                            Please <a href="auth/login.php" style="color: #e53637; text-decoration: none; font-weight: 600;">login</a> to post comments.
                         </p>
                     <?php endif; ?>
                 </div>

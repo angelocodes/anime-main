@@ -115,9 +115,9 @@ if (isset($_POST['submit'])) {
 
             <select name="genre" class="form-select  form-control" aria-label="Default select example">
               <option selected>Choose Genre</option>
-              <option value="Tv Series">Magic</option>
-              <option value="Movie">Action</option>
-              <option value="Movie">Adventure</option>
+              <option value="Magic">Magic</option>
+              <option value="Action">Action</option>
+              <option value="Adventure">Adventure</option>
             </select>
           </div>
           <div class="form-outline mb-4 mt-4">
